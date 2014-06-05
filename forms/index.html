@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="UTPA_formValidate.js" ></script>
+    </head>
+    <body>
+        <form id="form_test" action="https://devwebapps.utpa.edu/it/emailer/emaildelivery.cfm" method="post">
+            <input type="hidden" name="srv_email" value="balandranocoronej@utpa.edu" />
+            <input type="hidden" name="srv_subject" value="test" />
+            <input type="hidden" name="srv_back" value="http://www.utpa.edu/maps" />         
+            <input type="hidden" name="srv_writeto" value="form_test" />
+            <input type="hidden" name="srv_responsetemplate" value="" />   
+            <label for="name"> Name: </label>
+            <input name="name" id = "name" type="text" size="20" class="required min-length" data-minLen="5" />
+            <br />
+            <label for="lastname"> Last Name: </label>
+            <input name="lastname" id = "last_name" type="text" size="20" class="required onlyLetters" />
+            <br />
+            <label for="email"> Email: </label>
+            <input name="email" id = "email" type="text" class="email" />
+            <br />
+            <label for="phone"> Phone: </label>
+            <input name="phone" id = "phone" type="text" class="phone" />
+            <input type="submit" value="Submit" />
+        </form>
+        <script type="text/javascript">
+           // $('#form_test').UTPA_formValidate({errorClass:'fail', cssDisplay:"inline-block"});
+           $('#form_test').UTPA_formValidate({                
+                customValidators: {
+                    "onlyLetters":function(field, input){
+                        if (input.length > 0){
+                            var regEx = /[a-zA-Z]$/
+                            if(!regEx.test(input)){
+                                return false;
+                            } else {
+                                return true;
+                            }                            
+                        } else {
+                                return true
+                        }
+                    }
+                },
+                customValidatorsErrMsg: {
+                    "onlyLetters":"Name must contain only letters"
+                }
+                });
+            $(document).on('formValidationError', function(e){
+                    window.alert(e.fieldNames.join('\n'));
+                    console.log(e.fieldNames);
+                    });
+        </script>
+    </body>
+</html>
