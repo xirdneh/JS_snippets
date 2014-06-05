@@ -1,19 +1,27 @@
+if(typeof String.prototype.trim !== 'function') {
+  String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g, ''); 
+  }
+}
+
 var table_sorter=function(){
 	function sorter(n){
 		this.n=n; this.t; this.b; this.r; this.d; this.p; this.w; this.a=[]; this.l=0; this.hs;
 	}
 	sorter.prototype.init=function(t,f){
 		this.t=document.getElementById(t);
-		this.b=this.t.getElementsByTagName('tbody')[0];
-        this.hs = this.t.getElementsByTagName('thead')[0];
-		this.r=this.b.rows; var l=this.r.length;
-        for(var i=0;i<this.hs.rows[0].cells.length; i++){
-            var h = this.hs.rows[0].cells[i];
-            h.onclick=new Function(this.n+'.work(this.cellIndex)');
+        if (this.t) {
+            this.b=this.t.getElementsByTagName('tbody')[0];
+            this.hs = this.t.getElementsByTagName('thead')[0];
+            this.r=this.b.rows; var l=this.r.length;
+            for(var i=0;i<this.hs.rows[0].cells.length; i++){
+                var h = this.hs.rows[0].cells[i];
+                h.onclick=new Function(this.n+'.work(this.cellIndex)');
+            }
+            for(var i=0;i<l/2;i++){
+                this.a[i]={}; this.l++;
+            }
         }
-		for(var i=0;i<l/2;i++){
-            this.a[i]={}; this.l++;
-		}
 	}
 	sorter.prototype.work=function(y){
         for(var i=0;i<this.hs.rows[0].cells.length; i++){
